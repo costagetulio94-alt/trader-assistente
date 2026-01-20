@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trader Assistente</title>
+
+<style>
+body {
+  background:#0d0d0d;
+  color:#fff;
+  font-family:Arial;
+  padding:15px;
+}
+button, select {
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  font-size:16px;
+}
+.card {
+  background:#161616;
+  padding:20px;
+  margin-top:20px;
+  border-radius:10px;
+  text-align:center;
+}
+.call { color:#00ff88; font-weight:bold; font-size:22px }
+.put { color:#ff4444; font-weight:bold; font-size:22px }
+.neutro { color:#aaa; font-weight:bold; font-size:22px }
+</style>
+</head>
+
+<body>
+
+<h2>📊 Trader Assistente</h2>
+
+<select id="ativo">
+  <option value="BTCUSDT">BTC/USDT</option>
+  <option value="ETHUSDT">ETH/USDT</option>
+</select>
+
+<select id="tempo">
+  <option value="1m">1 Min</option>
+  <option value="5m">5 Min</option>
+</select>
+
+<button onclick="analisar()">ANALISAR</button>
+
+<div class="card" id="resultado">
+Aguardando análise…
+</div>
+
+<script>
+function analisar(){
+fetch("https://SEU_BACKEND/analisar?symbol="+ativo.value+"&interval="+tempo.value)
+.then(r=>r.json())
+.then(d=>{
+  let cls="neutro";
+  if(d.decisao==="CALL") cls="call";
+  if(d.decisao==="PUT") cls="put";
+  resultado.innerHTML =
+    `<div class="${cls}">${d.decisao}</div><br>
+     RSI: ${d.rsi}<br>
+     Preço: ${d.preco}`;
+});
+}
+</script>
+
+</body>
+</html>
