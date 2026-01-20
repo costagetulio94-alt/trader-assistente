@@ -1,1 +1,1 @@
-# trader-assistente
+# trader-assistentebackend/main.py
